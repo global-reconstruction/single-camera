@@ -1,0 +1,19 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        submodules: true
+    - name: Install dependencies
+      run: sudo apt update && sudo apt install -y libceres-dev libeigen3-dev nvidia-cuda-toolkit nvidia-cuda-dev
+    - name: Configure cmake
+      run: mkdir build && cd build && cmake ../
+    - name: Make
+      run: cd build && make -j $(nproc)
